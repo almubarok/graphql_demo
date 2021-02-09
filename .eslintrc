@@ -1,0 +1,12 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["dist/**/*", "database/migrations/**/*"],
+  "rules": {
+    "quotes": [1, "single"],
+    "no-extra-semi": "off",
+    "@typescript-eslint/no-extra-semi": ["error"],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
+  }
+}

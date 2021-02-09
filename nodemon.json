@@ -1,0 +1,8 @@
+{
+  "ext": "ts",
+  "ignore": ["./**/*.spec.ts"],
+  "exec": "ts-node index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

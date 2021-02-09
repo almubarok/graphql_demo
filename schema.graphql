@@ -1,0 +1,49 @@
+type Author {
+  id: Int
+  name: String
+  email: String
+  articles: [Article]
+}
+
+type Article {
+  id: Int
+  author_id: Int
+  title: String
+  content: String
+  author: Author
+}
+
+input AuthorInput {
+  name: String!
+  email: String
+  username: String!
+  password: String!
+}
+
+input ArticleInput {
+  author_id: Int!
+  title: String!
+  content: String!
+}
+
+type ArticleSubsPayload {
+  data: Article!
+  mutation: String!
+}
+
+type Query {
+  article(id:Int!): Article
+  articles(skip: Int, take: Int): [Article]
+  author(id:Int!) : Author
+  authors(skip: Int, take: Int): [Author]
+}
+
+type Mutation {
+  register(data:AuthorInput!): Author!
+  insertOneArticle(data: ArticleInput!): Article!
+  deleteOneArticle(article_id: Int!): Boolean
+}
+
+type Subscription {
+  article(author_id: Int): ArticleSubsPayload
+}
