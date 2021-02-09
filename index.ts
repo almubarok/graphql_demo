@@ -1,24 +1,30 @@
 import fs from 'fs';
 import path from 'path';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server';
+import { applyMiddleware } from 'graphql-middleware';
 import * as Query from './graphql/query';
 import * as Mutation from './graphql/mutation';
 import * as Subscription from './graphql/subscription';
 import subquery from './graphql/subquery';
 import { createContext } from './context';
+import rules from './graphql/rules';
 
-const schema = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8');
+const typeDefs = fs.readFileSync(
+  path.join(__dirname, 'schema.graphql'),
+  'utf8'
+);
+const resolvers = {
+  ...subquery,
+  Query,
+  Mutation,
+  Subscription,
+};
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const server = new ApolloServer({
-  typeDefs: schema,
+  schema: applyMiddleware(schema, rules),
   playground: true,
   introspection: true,
-  resolvers: {
-    ...subquery,
-    Query,
-    Mutation,
-    Subscription,
-  },
   context: createContext,
 });
 
